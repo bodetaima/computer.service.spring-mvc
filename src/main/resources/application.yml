@@ -6,3 +6,11 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+server:
+  port: 1025
+
+fatstack:
+  app:
+    jwtSecret: fatStackSecretKey
+    jwtExpirationMs: 86400000
+

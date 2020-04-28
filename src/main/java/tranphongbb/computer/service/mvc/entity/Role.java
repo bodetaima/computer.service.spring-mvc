@@ -6,6 +6,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Where;
 import tranphongbb.computer.service.mvc.entity.base.BaseEntity;
+import tranphongbb.computer.service.mvc.models.ERole;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -26,8 +27,9 @@ public class Role extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "name")
-    private String name;
+    private ERole name;
 
     @Column(name = "role_description")
     private String roleDescription;
