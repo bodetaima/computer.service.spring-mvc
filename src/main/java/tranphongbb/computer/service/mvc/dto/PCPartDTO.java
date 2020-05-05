@@ -12,6 +12,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PCPartDTO {
+
+    int id;
     String type;
     String name;
     Double price;
