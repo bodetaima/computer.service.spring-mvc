@@ -54,4 +54,9 @@ public class MainBoardServiceImpl implements MainBoardService {
             return null;
         }
     }
+
+    @Override
+    public List<MainBoard> findByName(String name) {
+        return repo.findByName(name);
+    }
 }

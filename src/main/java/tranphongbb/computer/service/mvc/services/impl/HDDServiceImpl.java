@@ -54,4 +54,9 @@ public class HDDServiceImpl implements HDDService {
             return null;
         }
     }
+
+    @Override
+    public List<HDD> findByName(String name) {
+        return repo.findByName(name);
+    }
 }

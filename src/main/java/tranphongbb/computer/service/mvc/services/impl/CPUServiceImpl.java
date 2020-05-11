@@ -54,4 +54,9 @@ public class CPUServiceImpl implements CPUService {
             return null;
         }
     }
+
+    @Override
+    public List<CPU> findByName(String name) {
+        return repo.findByName(name);
+    }
 }

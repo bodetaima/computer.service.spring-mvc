@@ -54,4 +54,9 @@ public class SSDServiceImpl implements SSDService {
             return null;
         }
     }
+
+    @Override
+    public List<SSD> findByName(String name) {
+        return repo.findByName(name);
+    }
 }

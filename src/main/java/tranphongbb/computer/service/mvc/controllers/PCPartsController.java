@@ -29,169 +29,26 @@ public class PCPartsController {
         List<PCPartDTO> pcPartDTOList = new ArrayList<>();
 
         List<MainBoard> mainBoardList = mainBoardService.findAll();
-        mainBoardList.forEach(mb -> {
-            PCPartDTO pcPartDTO = new PCPartDTO();
-            pcPartDTO.setId(mb.getId());
-            pcPartDTO.setType("mainboard");
-            pcPartDTO.setName(mb.getName());
-            pcPartDTO.setPrice(mb.getPrice());
-            pcPartDTO.setDescription(mb.getDescription());
-            pcPartDTOList.add(pcPartDTO);
-        });
+        forEachMainBoard(pcPartDTOList, mainBoardList);
 
         List<CPU> cpuList = cpuService.findAll();
-        cpuList.forEach(cpu -> {
-            PCPartDTO pcPartDTO = new PCPartDTO();
-            pcPartDTO.setId(cpu.getId());
-            pcPartDTO.setType("cpu");
-            pcPartDTO.setName(cpu.getName());
-            pcPartDTO.setPrice(cpu.getPrice());
-            pcPartDTO.setDescription(cpu.getDescription());
-            pcPartDTOList.add(pcPartDTO);
-        });
+        forEachCPU(pcPartDTOList, cpuList);
 
         List<RAM> ramList = ramService.findAll();
-        ramList.forEach(ram -> {
-            PCPartDTO pcPartDTO = new PCPartDTO();
-            pcPartDTO.setId(ram.getId());
-            pcPartDTO.setType("ram");
-            pcPartDTO.setName(ram.getName());
-            pcPartDTO.setPrice(ram.getPrice());
-            pcPartDTO.setDescription(ram.getDescription());
-            pcPartDTOList.add(pcPartDTO);
-        });
-
-        List<VGA> vgaList = vgaService.findAll();
-        vgaList.forEach(vga -> {
-            PCPartDTO pcPartDTO = new PCPartDTO();
-            pcPartDTO.setId(vga.getId());
-            pcPartDTO.setType("VGA");
-            pcPartDTO.setName(vga.getName());
-            pcPartDTO.setPrice(vga.getPrice());
-            pcPartDTO.setDescription(vga.getDescription());
-            pcPartDTOList.add(pcPartDTO);
-        });
+        forEachRAM(pcPartDTOList, ramList);
 
         List<PSU> psuList = psuService.findAll();
-        psuList.forEach(psu -> {
-            PCPartDTO pcPartDTO = new PCPartDTO();
-            pcPartDTO.setId(psu.getId());
-            pcPartDTO.setType("psu");
-            pcPartDTO.setName(psu.getName());
-            pcPartDTO.setPrice(psu.getPrice());
-            pcPartDTO.setDescription(psu.getDescription());
-            pcPartDTOList.add(pcPartDTO);
-        });
+        forEachPSU(pcPartDTOList, psuList);
+
+        List<VGA> vgaList = vgaService.findAll();
+        forEachVGA(pcPartDTOList, vgaList);
 
         List<HDD> hddList = hddService.findAll();
-        hddList.forEach(hdd -> {
-            PCPartDTO pcPartDTO = new PCPartDTO();
-            pcPartDTO.setId(hdd.getId());
-            pcPartDTO.setType("hdd");
-            pcPartDTO.setName(hdd.getName());
-            pcPartDTO.setPrice(hdd.getPrice());
-            pcPartDTO.setDescription(hdd.getDescription());
-            pcPartDTOList.add(pcPartDTO);
-        });
+        forEachHDD(pcPartDTOList, hddList);
 
         List<SSD> ssdList = ssdService.findAll();
-        ssdList.forEach(ssd -> {
-            PCPartDTO pcPartDTO = new PCPartDTO();
-            pcPartDTO.setId(ssd.getId());
-            pcPartDTO.setType("ssd");
-            pcPartDTO.setName(ssd.getName());
-            pcPartDTO.setPrice(ssd.getPrice());
-            pcPartDTO.setDescription(ssd.getDescription());
-            pcPartDTOList.add(pcPartDTO);
-        });
+        forEachSSD(pcPartDTOList, ssdList);
 
-        return pcPartDTOList;
-    }
-
-    @GetMapping("/{type}")
-    public List<PCPartDTO> findPCPartByType(@PathVariable("type") String type) {
-        List<PCPartDTO> pcPartDTOList = new ArrayList<>();
-        switch (type) {
-            case "mainboard":
-                List<MainBoard> mainBoardList = mainBoardService.findAll();
-                mainBoardList.forEach(mb -> {
-                    PCPartDTO pcPartDTO = new PCPartDTO();
-                    pcPartDTO.setName(mb.getName());
-                    pcPartDTO.setType("mainboard");
-                    pcPartDTO.setPrice(mb.getPrice());
-                    pcPartDTO.setDescription(mb.getDescription());
-                    pcPartDTOList.add(pcPartDTO);
-                });
-                break;
-            case "cpu":
-                List<CPU> cpuList = cpuService.findAll();
-                cpuList.forEach(cpu -> {
-                    PCPartDTO pcPartDTO = new PCPartDTO();
-                    pcPartDTO.setName(cpu.getName());
-                    pcPartDTO.setType("cpu");
-                    pcPartDTO.setPrice(cpu.getPrice());
-                    pcPartDTO.setDescription(cpu.getDescription());
-                    pcPartDTOList.add(pcPartDTO);
-                });
-                break;
-            case "ram":
-                List<RAM> ramList = ramService.findAll();
-                ramList.forEach(ram -> {
-                    PCPartDTO pcPartDTO = new PCPartDTO();
-                    pcPartDTO.setName(ram.getName());
-                    pcPartDTO.setType("ram");
-                    pcPartDTO.setPrice(ram.getPrice());
-                    pcPartDTO.setDescription(ram.getDescription());
-                    pcPartDTOList.add(pcPartDTO);
-                });
-                break;
-            case "vga":
-                List<VGA> vgaList = vgaService.findAll();
-                vgaList.forEach(vga -> {
-                    PCPartDTO pcPartDTO = new PCPartDTO();
-                    pcPartDTO.setName(vga.getName());
-                    pcPartDTO.setType("vga");
-                    pcPartDTO.setPrice(vga.getPrice());
-                    pcPartDTO.setDescription(vga.getDescription());
-                    pcPartDTOList.add(pcPartDTO);
-                });
-                break;
-            case "psu":
-                List<PSU> psuList = psuService.findAll();
-                psuList.forEach(psu -> {
-                    PCPartDTO pcPartDTO = new PCPartDTO();
-                    pcPartDTO.setName(psu.getName());
-                    pcPartDTO.setType("psu");
-                    pcPartDTO.setPrice(psu.getPrice());
-                    pcPartDTO.setDescription(psu.getDescription());
-                    pcPartDTOList.add(pcPartDTO);
-                });
-                break;
-            case "hdd":
-                List<HDD> hddList = hddService.findAll();
-                hddList.forEach(hdd -> {
-                    PCPartDTO pcPartDTO = new PCPartDTO();
-                    pcPartDTO.setName(hdd.getName());
-                    pcPartDTO.setType("hdd");
-                    pcPartDTO.setPrice(hdd.getPrice());
-                    pcPartDTO.setDescription(hdd.getDescription());
-                    pcPartDTOList.add(pcPartDTO);
-                });
-                break;
-            case "ssd":
-                List<SSD> ssdList = ssdService.findAll();
-                ssdList.forEach(ssd -> {
-                    PCPartDTO pcPartDTO = new PCPartDTO();
-                    pcPartDTO.setName(ssd.getName());
-                    pcPartDTO.setType("ssd");
-                    pcPartDTO.setPrice(ssd.getPrice());
-                    pcPartDTO.setDescription(ssd.getDescription());
-                    pcPartDTOList.add(pcPartDTO);
-                });
-                break;
-            default:
-                return pcPartDTOList;
-        }
         return pcPartDTOList;
     }
 
@@ -403,5 +260,206 @@ public class PCPartsController {
                 ssdService.deleteById(id);
                 break;
         }
+    }
+
+    @GetMapping("/search")
+    public List<PCPartDTO> search(@RequestParam("type") String type, @RequestParam("query") String query) {
+
+        List<PCPartDTO> pcPartDTOList = new ArrayList<>();
+        List<MainBoard> mainBoardList;
+        List<CPU> cpuList;
+        List<RAM> ramList;
+        List<VGA> vgaList;
+        List<PSU> psuList;
+        List<HDD> hddList;
+        List<SSD> ssdList;
+
+        switch (type) {
+            case "mainboard":
+                if (!"".equals(query)) {
+                    mainBoardList = mainBoardService.findByName(query);
+                } else {
+                    mainBoardList = mainBoardService.findAll();
+                }
+                forEachMainBoard(pcPartDTOList, mainBoardList);
+                break;
+            case "cpu":
+                if (!"".equals(query)) {
+                    cpuList = cpuService.findByName(query);
+                } else {
+                    cpuList = cpuService.findAll();
+                }
+                forEachCPU(pcPartDTOList, cpuList);
+                break;
+            case "ram":
+                if (!"".equals(query)) {
+                    ramList = ramService.findByName(query);
+                } else {
+                    ramList = ramService.findAll();
+                }
+                forEachRAM(pcPartDTOList, ramList);
+                break;
+            case "vga":
+                if (!"".equals(query)) {
+                    vgaList = vgaService.findByName(query);
+                } else {
+                    vgaList = vgaService.findAll();
+                }
+                forEachVGA(pcPartDTOList, vgaList);
+                break;
+            case "psu":
+                if (!"".equals(query)) {
+                    psuList = psuService.findByName(query);
+                } else {
+                    psuList = psuService.findAll();
+                }
+                forEachPSU(pcPartDTOList, psuList);
+                break;
+            case "hdd":
+                if (!"".equals(query)) {
+                    hddList = hddService.findByName(query);
+                } else {
+                    hddList = hddService.findAll();
+                }
+                forEachHDD(pcPartDTOList, hddList);
+                break;
+            case "ssd":
+                if (!"".equals(query)) {
+                    ssdList = ssdService.findByName(query);
+                } else {
+                    ssdList = ssdService.findAll();
+                }
+                forEachSSD(pcPartDTOList, ssdList);
+                break;
+            case "":
+                if (!"".equals(query)) {
+                    mainBoardList = mainBoardService.findByName(query);
+                    forEachMainBoard(pcPartDTOList, mainBoardList);
+
+                    cpuList = cpuService.findByName(query);
+                    forEachCPU(pcPartDTOList, cpuList);
+                    ramList = ramService.findByName(query);
+                    forEachRAM(pcPartDTOList, ramList);
+
+                    psuList = psuService.findByName(query);
+                    forEachPSU(pcPartDTOList, psuList);
+
+                    vgaList = vgaService.findByName(query);
+                    forEachVGA(pcPartDTOList, vgaList);
+
+                    hddList = hddService.findByName(query);
+                    forEachHDD(pcPartDTOList, hddList);
+
+                    ssdList = ssdService.findByName(query);
+                    forEachSSD(pcPartDTOList, ssdList);
+                } else {
+                    mainBoardList = mainBoardService.findAll();
+                    forEachMainBoard(pcPartDTOList, mainBoardList);
+
+                    cpuList = cpuService.findAll();
+                    forEachCPU(pcPartDTOList, cpuList);
+
+                    ramList = ramService.findAll();
+                    forEachRAM(pcPartDTOList, ramList);
+
+                    psuList = psuService.findAll();
+                    forEachPSU(pcPartDTOList, psuList);
+
+                    vgaList = vgaService.findAll();
+                    forEachVGA(pcPartDTOList, vgaList);
+
+                    hddList = hddService.findAll();
+                    forEachHDD(pcPartDTOList, hddList);
+
+                    ssdList = ssdService.findAll();
+                    forEachSSD(pcPartDTOList, ssdList);
+                }
+                break;
+        }
+        return pcPartDTOList;
+    }
+
+    private void forEachMainBoard(List<PCPartDTO> dtoList, List<MainBoard> oList) {
+        oList.forEach(o -> {
+            PCPartDTO pcPartDTO = new PCPartDTO();
+            pcPartDTO.setId(o.getId());
+            pcPartDTO.setType("mainboard");
+            pcPartDTO.setName(o.getName());
+            pcPartDTO.setPrice(o.getPrice());
+            pcPartDTO.setDescription(o.getDescription());
+            dtoList.add(pcPartDTO);
+        });
+    }
+
+    private void forEachCPU(List<PCPartDTO> dtoList, List<CPU> oList) {
+        oList.forEach(o -> {
+            PCPartDTO pcPartDTO = new PCPartDTO();
+            pcPartDTO.setId(o.getId());
+            pcPartDTO.setType("cpu");
+            pcPartDTO.setName(o.getName());
+            pcPartDTO.setPrice(o.getPrice());
+            pcPartDTO.setDescription(o.getDescription());
+            dtoList.add(pcPartDTO);
+        });
+    }
+
+    private void forEachRAM(List<PCPartDTO> dtoList, List<RAM> oList) {
+        oList.forEach(o -> {
+            PCPartDTO pcPartDTO = new PCPartDTO();
+            pcPartDTO.setId(o.getId());
+            pcPartDTO.setType("ram");
+            pcPartDTO.setName(o.getName());
+            pcPartDTO.setPrice(o.getPrice());
+            pcPartDTO.setDescription(o.getDescription());
+            dtoList.add(pcPartDTO);
+        });
+    }
+
+    private void forEachPSU(List<PCPartDTO> dtoList, List<PSU> oList) {
+        oList.forEach(o -> {
+            PCPartDTO pcPartDTO = new PCPartDTO();
+            pcPartDTO.setId(o.getId());
+            pcPartDTO.setType("psu");
+            pcPartDTO.setName(o.getName());
+            pcPartDTO.setPrice(o.getPrice());
+            pcPartDTO.setDescription(o.getDescription());
+            dtoList.add(pcPartDTO);
+        });
+    }
+
+    private void forEachVGA(List<PCPartDTO> dtoList, List<VGA> oList) {
+        oList.forEach(o -> {
+            PCPartDTO pcPartDTO = new PCPartDTO();
+            pcPartDTO.setId(o.getId());
+            pcPartDTO.setType("vga");
+            pcPartDTO.setName(o.getName());
+            pcPartDTO.setPrice(o.getPrice());
+            pcPartDTO.setDescription(o.getDescription());
+            dtoList.add(pcPartDTO);
+        });
+    }
+
+    private void forEachHDD(List<PCPartDTO> dtoList, List<HDD> oList) {
+        oList.forEach(o -> {
+            PCPartDTO pcPartDTO = new PCPartDTO();
+            pcPartDTO.setId(o.getId());
+            pcPartDTO.setType("hdd");
+            pcPartDTO.setName(o.getName());
+            pcPartDTO.setPrice(o.getPrice());
+            pcPartDTO.setDescription(o.getDescription());
+            dtoList.add(pcPartDTO);
+        });
+    }
+
+    private void forEachSSD(List<PCPartDTO> dtoList, List<SSD> oList) {
+        oList.forEach(o -> {
+            PCPartDTO pcPartDTO = new PCPartDTO();
+            pcPartDTO.setId(o.getId());
+            pcPartDTO.setType("ssd");
+            pcPartDTO.setName(o.getName());
+            pcPartDTO.setPrice(o.getPrice());
+            pcPartDTO.setDescription(o.getDescription());
+            dtoList.add(pcPartDTO);
+        });
     }
 }

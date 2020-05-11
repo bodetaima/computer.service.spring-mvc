@@ -54,4 +54,9 @@ public class VGAServiceImpl implements VGAService {
             return null;
         }
     }
+
+    @Override
+    public List<VGA> findByName(String name) {
+        return repo.findByName(name);
+    }
 }

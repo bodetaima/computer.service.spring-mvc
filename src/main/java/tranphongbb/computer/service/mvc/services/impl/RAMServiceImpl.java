@@ -55,4 +55,9 @@ public class RAMServiceImpl implements RAMService {
             return null;
         }
     }
+
+    @Override
+    public List<RAM> findByName(String name) {
+        return repo.findByName(name);
+    }
 }

@@ -54,4 +54,9 @@ public class PSUServiceImpl implements PSUService {
             return null;
         }
     }
+
+    @Override
+    public List<PSU> findByName(String name) {
+        return repo.findByName(name);
+    }
 }
