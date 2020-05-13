@@ -23,9 +23,11 @@ import tranphongbb.computer.service.mvc.security.jwt.JwtUtils;
 
 import javax.validation.Valid;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.TimeZone;
 import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -50,12 +52,16 @@ public class AuthController {
 
         String jwt = jwtUtils.generateJwtToken(authentication);
 
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.000Z");
+        dateFormat.setTimeZone(TimeZone.getTimeZone("Asia/Saigon"));
+        String expirationDate = dateFormat.format(jwtUtils.getExpirationTimeFromJwtToken(jwt));
+
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
         List<String> roles = userDetails.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList());
 
-        return ResponseEntity.ok(new JwtResponse(jwt, userDetails.getId(), userDetails.getUsername(), userDetails.getEmail(), roles));
+        return ResponseEntity.ok(new JwtResponse(jwt, expirationDate, userDetails.getId(), userDetails.getUsername(), userDetails.getEmail(), roles));
     }
 
 
