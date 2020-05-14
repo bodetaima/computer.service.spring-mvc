@@ -1,10 +1,14 @@
 package tranphongbb.computer.service.mvc.controllers;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import tranphongbb.computer.service.mvc.dto.PCPartDTO;
 import tranphongbb.computer.service.mvc.entity.pc.*;
+import tranphongbb.computer.service.mvc.models.PCPartDtoWithPaging;
 import tranphongbb.computer.service.mvc.models.UserDetailsImpl;
 import tranphongbb.computer.service.mvc.services.*;
 
@@ -26,7 +30,7 @@ public class PCPartsController {
     private final SSDService ssdService;
 
     @GetMapping
-    public List<PCPartDTO> findAllPCParts() {
+    public PCPartDtoWithPaging findAllPCParts(Pageable pageable) {
 
         List<PCPartDTO> pcPartDTOList = new ArrayList<>();
 
@@ -51,7 +55,13 @@ public class PCPartsController {
         List<SSD> ssdList = ssdService.findAll();
         forEachSSD(pcPartDTOList, ssdList);
 
-        return pcPartDTOList;
+        int start = (int) pageable.getOffset();
+        int end = (start + pageable.getPageSize()) > pcPartDTOList.size() ? pcPartDTOList.size() : (start + pageable.getPageSize());
+        Page<PCPartDTO> pages = new PageImpl<PCPartDTO>(pcPartDTOList.subList(start, end), pageable, pcPartDTOList.size());
+
+        PCPartDtoWithPaging pcPartDtoWithPaging = new PCPartDtoWithPaging(pages.getContent(), pages.getSize(), pages.getNumber(), pages.getTotalPages(), pages.getTotalElements());
+
+        return pcPartDtoWithPaging;
     }
 
     @PostMapping
@@ -285,7 +295,7 @@ public class PCPartsController {
     }
 
     @GetMapping("/search")
-    public List<PCPartDTO> search(@RequestParam("type") String type, @RequestParam("query") String query) {
+    public PCPartDtoWithPaging search(Pageable pageable, @RequestParam("type") String type, @RequestParam("query") String query) {
 
         List<PCPartDTO> pcPartDTOList = new ArrayList<>();
         List<MainBoard> mainBoardList;
@@ -398,7 +408,14 @@ public class PCPartsController {
                 }
                 break;
         }
-        return pcPartDTOList;
+
+        int start = (int) pageable.getOffset();
+        int end = (start + pageable.getPageSize()) > pcPartDTOList.size() ? pcPartDTOList.size() : (start + pageable.getPageSize());
+        Page<PCPartDTO> pages = new PageImpl<PCPartDTO>(pcPartDTOList.subList(start, end), pageable, pcPartDTOList.size());
+
+        PCPartDtoWithPaging pcPartDtoWithPaging = new PCPartDtoWithPaging(pages.getContent(), pages.getSize(), pages.getNumber(), pages.getTotalPages(), pages.getTotalElements());
+
+        return pcPartDtoWithPaging;
     }
 
     private void forEachMainBoard(List<PCPartDTO> dtoList, List<MainBoard> oList) {
