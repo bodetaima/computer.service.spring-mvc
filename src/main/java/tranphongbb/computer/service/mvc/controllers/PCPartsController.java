@@ -1,9 +1,11 @@
 package tranphongbb.computer.service.mvc.controllers;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import tranphongbb.computer.service.mvc.dto.PCPartDTO;
 import tranphongbb.computer.service.mvc.entity.pc.*;
+import tranphongbb.computer.service.mvc.models.UserDetailsImpl;
 import tranphongbb.computer.service.mvc.services.*;
 
 import java.util.ArrayList;
@@ -55,12 +57,16 @@ public class PCPartsController {
     @PostMapping
     public PCPartDTO createNewPCPart(@RequestBody PCPartDTO pcPartDTO) {
 
+        UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        int id = userDetails.getId();
+
         switch (pcPartDTO.getType()) {
             case "mainboard":
                 MainBoard mainBoard = new MainBoard();
                 mainBoard.setName(pcPartDTO.getName());
                 mainBoard.setPrice(pcPartDTO.getPrice());
                 mainBoard.setDescription(pcPartDTO.getDescription());
+                mainBoard.setCreatedBy(id);
                 mainBoardService.save(mainBoard);
                 break;
             case "cpu":
@@ -68,6 +74,7 @@ public class PCPartsController {
                 cpu.setName(pcPartDTO.getName());
                 cpu.setPrice(pcPartDTO.getPrice());
                 cpu.setDescription(pcPartDTO.getDescription());
+                cpu.setCreatedBy(id);
                 cpuService.save(cpu);
                 break;
             case "ram":
@@ -75,6 +82,7 @@ public class PCPartsController {
                 ram.setName(pcPartDTO.getName());
                 ram.setPrice(pcPartDTO.getPrice());
                 ram.setDescription(pcPartDTO.getDescription());
+                ram.setCreatedBy(id);
                 ramService.save(ram);
                 break;
             case "vga":
@@ -82,6 +90,7 @@ public class PCPartsController {
                 vga.setName(pcPartDTO.getName());
                 vga.setPrice(pcPartDTO.getPrice());
                 vga.setDescription(vga.getDescription());
+                vga.setCreatedBy(id);
                 vgaService.save(vga);
                 break;
             case "psu":
@@ -89,6 +98,7 @@ public class PCPartsController {
                 psu.setName(pcPartDTO.getName());
                 psu.setPrice(pcPartDTO.getPrice());
                 psu.setDescription(pcPartDTO.getDescription());
+                psu.setCreatedBy(id);
                 psuService.save(psu);
                 break;
             case "hdd":
@@ -96,6 +106,7 @@ public class PCPartsController {
                 hdd.setName(pcPartDTO.getName());
                 hdd.setPrice(pcPartDTO.getPrice());
                 hdd.setDescription(pcPartDTO.getDescription());
+                hdd.setCreatedBy(id);
                 hddService.save(hdd);
                 break;
             case "ssd":
@@ -103,6 +114,7 @@ public class PCPartsController {
                 ssd.setName(pcPartDTO.getName());
                 ssd.setPrice(pcPartDTO.getPrice());
                 ssd.setDescription(pcPartDTO.getDescription());
+                ssd.setCreatedBy(id);
                 ssdService.save(ssd);
                 break;
             default:
@@ -178,19 +190,24 @@ public class PCPartsController {
     @PutMapping
     public PCPartDTO updateOne(@RequestBody PCPartDTO updated) {
 
+        UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        int id = userDetails.getId();
+
         switch (updated.getType()) {
             case "mainboard":
-                MainBoard byId = mainBoardService.findById(updated.getId());
-                byId.setName(updated.getName());
-                byId.setPrice(updated.getPrice());
-                byId.setDescription(updated.getDescription());
-                mainBoardService.save(byId);
+                MainBoard mb = mainBoardService.findById(updated.getId());
+                mb.setName(updated.getName());
+                mb.setPrice(updated.getPrice());
+                mb.setDescription(updated.getDescription());
+                mb.setUpdatedBy(id);
+                mainBoardService.save(mb);
                 break;
             case "cpu":
                 CPU cpu = cpuService.findById(updated.getId());
                 cpu.setName(updated.getName());
                 cpu.setPrice(updated.getPrice());
                 cpu.setDescription(updated.getDescription());
+                cpu.setUpdatedBy(id);
                 cpuService.save(cpu);
                 break;
             case "RAM":
@@ -198,6 +215,7 @@ public class PCPartsController {
                 ram.setName(updated.getName());
                 ram.setPrice(updated.getPrice());
                 ram.setDescription(updated.getDescription());
+                ram.setUpdatedBy(id);
                 ramService.save(ram);
                 break;
             case "vga":
@@ -205,6 +223,7 @@ public class PCPartsController {
                 vga.setName(updated.getName());
                 vga.setPrice(updated.getPrice());
                 vga.setDescription(vga.getDescription());
+                vga.setUpdatedBy(id);
                 vgaService.save(vga);
                 break;
             case "psu":
@@ -212,6 +231,7 @@ public class PCPartsController {
                 psu.setName(updated.getName());
                 psu.setPrice(updated.getPrice());
                 psu.setDescription(updated.getDescription());
+                psu.setUpdatedBy(id);
                 psuService.save(psu);
                 break;
             case "hdd":
@@ -219,6 +239,7 @@ public class PCPartsController {
                 hdd.setName(updated.getName());
                 hdd.setPrice(updated.getPrice());
                 hdd.setDescription(updated.getDescription());
+                hdd.setUpdatedBy(id);
                 hddService.save(hdd);
                 break;
             case "ssd":
@@ -226,6 +247,7 @@ public class PCPartsController {
                 ssd.setName(updated.getName());
                 ssd.setPrice(updated.getPrice());
                 ssd.setDescription(updated.getDescription());
+                ssd.setUpdatedBy(id);
                 ssdService.save(ssd);
                 break;
             default:
