@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import tranphongbb.computer.service.mvc.dto.PartDto;
+import tranphongbb.computer.service.mvc.dto.PartTypeDto;
 import tranphongbb.computer.service.mvc.entity.Part;
 import tranphongbb.computer.service.mvc.entity.PartType;
 import tranphongbb.computer.service.mvc.models.PartDtoWithPaging;
@@ -38,6 +39,24 @@ public class PartController {
         });
 
         return new PartDtoWithPaging(partDtoList, parts.getSize(), parts.getNumber(), parts.getTotalPages(), parts.getTotalElements());
+    }
+
+    @GetMapping("/type")
+    public List<PartTypeDto> findAllPartType() {
+        List<PartTypeDto> partTypeDtoList = new ArrayList<>();
+        List<PartType> all = partTypeService.findAll();
+
+        all.forEach(partType -> {
+            PartTypeDto partTypeDto = new PartTypeDto();
+            partTypeDto.setType(partType.getType());
+            partTypeDto.setCheck(partType.isCheck());
+            partTypeDto.setParentType(partType.getParentType());
+            partTypeDto.setName(partType.getName());
+            partTypeDto.setDescription(partType.getDescription());
+            partTypeDtoList.add(partTypeDto);
+        });
+
+        return partTypeDtoList;
     }
 
     @GetMapping

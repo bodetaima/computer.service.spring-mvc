@@ -23,6 +23,12 @@ public class PartType extends BaseEntity {
     @Column(name = "type")
     private String type;
 
+    @Column(name = "is_parent_type")
+    private boolean check;
+
+    @Column(name = "parent_type")
+    private String parentType;
+
     @Column(name = "name")
     private String name;
 
