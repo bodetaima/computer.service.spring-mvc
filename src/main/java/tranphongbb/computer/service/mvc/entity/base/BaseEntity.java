@@ -31,7 +31,7 @@ public class BaseEntity {
     @Column(name = "created_by", updatable = false)
     private int createdBy = 0;
 
-    @Column(name = "updated_by", updatable = false)
+    @Column(name = "updated_by")
     private int updatedBy = 0;
 
     @Column(name = "deleted", nullable = false)

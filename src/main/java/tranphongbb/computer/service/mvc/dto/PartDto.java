@@ -1,24 +1,22 @@
-package tranphongbb.computer.service.mvc.models;
+package tranphongbb.computer.service.mvc.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import tranphongbb.computer.service.mvc.dto.PCPartDTO;
-
-import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class PCPartDtoWithPaging {
+public class PartDto {
 
-    List<PCPartDTO> parts;
-    int size;
-    int page;
-    int totalPages;
-    long totalElements;
+    int id;
+    int partTypeId;
+    String type;
+    String name;
+    Double price;
+    String description;
 }

@@ -1,4 +1,4 @@
-package tranphongbb.computer.service.mvc.entity.pc;
+package tranphongbb.computer.service.mvc.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,18 +7,19 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Where;
 import tranphongbb.computer.service.mvc.entity.base.BaseEntity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
-@Table(name = "cpu")
+@Table(name = "parts")
 @Where(clause = "deleted = false")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CPU extends BaseEntity {
+public class Part extends BaseEntity {
+
+    @Column(name = "part_type_id")
+    private int partTypeId;
 
     @Column(name = "name")
     private String name;
@@ -28,4 +29,8 @@ public class CPU extends BaseEntity {
 
     @Column(name = "description")
     private String description;
+
+    @OneToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "part_type_id", referencedColumnName = "id", updatable = false, insertable = false)
+    private PartType partType;
 }
