@@ -112,6 +112,8 @@ public class PartController {
             partDto.setType(byId.getPartType().getType());
             partDto.setPrice(byId.getPrice());
             partDto.setDescription(byId.getDescription());
+            PartType byType = partTypeService.findByType(byId.getPartType().getType());
+            partDto.setPartTypeDto(new PartTypeDto(byType));
             return partDto;
         }
         return null;
@@ -123,13 +125,14 @@ public class PartController {
         UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         int id = userDetails.getId();
 
+        PartType byType = partTypeService.findByType(updated.getType());
         Part part = partService.findById(updated.getId());
         part.setName(updated.getName());
-        PartType byType = partTypeService.findByType(updated.getType());
         part.setPartTypeId(byType.getId());
         part.setPrice(updated.getPrice());
         part.setDescription(updated.getDescription());
         part.setUpdatedBy(id);
+        part.setPartType(byType);
         return partService.save(part);
     }
 

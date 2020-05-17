@@ -19,4 +19,5 @@ public class PartDto {
     String name;
     Double price;
     String description;
+    PartTypeDto partTypeDto;
 }
