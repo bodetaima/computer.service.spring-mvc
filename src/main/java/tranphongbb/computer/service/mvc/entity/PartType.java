@@ -7,9 +7,8 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Where;
 import tranphongbb.computer.service.mvc.entity.base.BaseEntity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.Set;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
@@ -23,15 +22,17 @@ public class PartType extends BaseEntity {
     @Column(name = "type")
     private String type;
 
-    @Column(name = "is_parent_type")
-    private boolean check;
-
-    @Column(name = "parent_type")
-    private String parentType;
+    @Column(name = "parent_type_id")
+    private int parentTypeId;
 
     @Column(name = "name")
     private String name;
 
     @Column(name = "description")
     private String description;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "parent_type_id", updatable = false, insertable = false)
+    private Set<PartType> partTypes;
+
 }

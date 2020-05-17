@@ -4,12 +4,15 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 import tranphongbb.computer.service.mvc.dto.PartDto;
 import tranphongbb.computer.service.mvc.dto.PartTypeDto;
+import tranphongbb.computer.service.mvc.dto.PartTypeParentDto;
 import tranphongbb.computer.service.mvc.entity.Part;
 import tranphongbb.computer.service.mvc.entity.PartType;
 import tranphongbb.computer.service.mvc.models.PartDtoWithPaging;
+import tranphongbb.computer.service.mvc.models.PartTypeModel;
 import tranphongbb.computer.service.mvc.models.UserDetailsImpl;
 import tranphongbb.computer.service.mvc.services.PartService;
 import tranphongbb.computer.service.mvc.services.PartTypeService;
@@ -42,21 +45,36 @@ public class PartController {
     }
 
     @GetMapping("/type")
-    public List<PartTypeDto> findAllPartType() {
-        List<PartTypeDto> partTypeDtoList = new ArrayList<>();
+    public PartTypeModel findAllPartType() {
+        PartTypeModel partTypeModel = new PartTypeModel();
         List<PartType> all = partTypeService.findAll();
 
-        all.forEach(partType -> {
-            PartTypeDto partTypeDto = new PartTypeDto();
-            partTypeDto.setType(partType.getType());
-            partTypeDto.setCheck(partType.isCheck());
-            partTypeDto.setParentType(partType.getParentType());
-            partTypeDto.setName(partType.getName());
-            partTypeDto.setDescription(partType.getDescription());
-            partTypeDtoList.add(partTypeDto);
+        List<PartTypeParentDto> partTypeParentDtoList = new ArrayList<>();
+        all.forEach(partTypeParent -> {
+            PartTypeParentDto partTypeParentDto = new PartTypeParentDto();
+            partTypeParentDto.setType(partTypeParent.getType());
+            partTypeParentDto.setName(partTypeParent.getName());
+            partTypeParentDto.setDescription(partTypeParent.getDescription());
+
+            List<PartTypeDto> partTypeDtoList = new ArrayList<>();
+            partTypeParent.getPartTypes().forEach(partType -> {
+                PartTypeDto partTypeDto = new PartTypeDto();
+                partTypeDto.setType(partType.getType());
+                partTypeDto.setParentTypeId(partType.getParentTypeId());
+                partTypeDto.setName(partType.getName());
+                partTypeDto.setDescription(partType.getDescription());
+                partTypeDtoList.add(partTypeDto);
+            });
+
+            if (!CollectionUtils.isEmpty(partTypeDtoList)) {
+                partTypeParentDto.setPartTypeDtoList(partTypeDtoList);
+                partTypeParentDtoList.add(partTypeParentDto);
+            }
         });
 
-        return partTypeDtoList;
+        partTypeModel.setTypes(partTypeParentDtoList);
+
+        return partTypeModel;
     }
 
     @GetMapping

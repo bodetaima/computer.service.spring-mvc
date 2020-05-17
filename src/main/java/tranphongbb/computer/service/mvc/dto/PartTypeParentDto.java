@@ -4,12 +4,14 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Getter
 @Setter
-public class PartTypeDto {
+public class PartTypeParentDto {
 
-    private int parentTypeId;
+    List<PartTypeDto> partTypeDtoList;
     private String type;
     private String name;
     private String description;
