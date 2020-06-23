@@ -1,0 +1,5 @@
+To export data from MySQL Docker Container, do following steps:
+
+- Optional for the first time: Run script `docker exec -it CONTAINER bash -l`. Once you get in the shell, run following `mysql_config_editor set --login-path=local --host=localhost --user=db_username --password`. Change the `db_username` with your and type in password. Now you can exit the shell.
+- To dumb data into .sql file: Run script `docker exec CONTAINER /usr/bin/mysqldump --login-path=local DATABASE_NAME > filename.sql`.
+- Voila! You data is secure!
