@@ -1,5 +1,7 @@
 # The first and mighty Computer Service. Booted by Spring...Boot(?)
 
+## !!Currently suspended indefinitely!! Please visit [Computer Service written in Node](https://github.com/bodetaima/computer.services.node) for backend details.
+
 Maven is good. Gradle just made Maven even better. But still, Gradle
 
 `./gradlew build`
